@@ -2,7 +2,9 @@ package com.online.controller;
 
 import com.online.dto.DtoCreateCustomer;
 import com.online.model.Customer;
+import com.online.model.Product;
 import com.online.service.CustomerService;
+import com.online.service.ProductService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -11,21 +13,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.List;
 
-@Path("/customer")
-public class CustomerController {
+@Path("/product")
+public class ProductsController {
 
     @Inject
-    CustomerService customerService;
+    ProductService productService;
 
     @GET
-    public List<Customer> listCustomer() {
-        return customerService.listCustomers();
+    public List<Product> listProduct() {
+        return productService.listProducts();
     }
-
-    @POST
-    @Transactional
-    public Customer createCustomer(DtoCreateCustomer dto) {
-        return customerService.createCustomer(dto);
-    }
-
 }

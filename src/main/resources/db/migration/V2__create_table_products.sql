@@ -1,0 +1,9 @@
+CREATE TABLE products (
+       id BIGINT PRIMARY KEY AUTO_INCREMENT,
+       name VARCHAR(255) NOT NULL,
+       description VARCHAR(255) NOT NULL,
+       brand VARCHAR(255) NOT NULL,
+       price DOUBLE NOT NULL,
+       category ENUM('ELECTRONICS', 'CLOTHING', 'AUTOMOTIVE', 'HOME_AND_KITCHEN', 'PET_SUPPLIES', 'GAMES') NOT NULL,
+       quantity INT NOT NULL
+);
