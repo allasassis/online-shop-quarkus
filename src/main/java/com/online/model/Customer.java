@@ -1,6 +1,7 @@
 package com.online.model;
 
 import com.online.dto.DtoCreateCustomer;
+import com.online.dto.DtoUpdateCustomer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,14 @@ public class Customer {
         this.email = dto.email();
         this.birthdate = dto.birthdate();
         this.address = dto.address();
+    }
+
+    public void update(DtoUpdateCustomer dto) {
+        if (dto.email() != null) {
+            this.email = dto.email();
+        }
+        if (dto.address() != null) {
+            this.address.update(dto);
+        }
     }
 }
