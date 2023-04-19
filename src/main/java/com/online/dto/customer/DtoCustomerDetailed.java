@@ -1,4 +1,4 @@
-package com.online.dto;
+package com.online.dto.customer;
 
 import com.online.model.Address;
 import com.online.model.Customer;

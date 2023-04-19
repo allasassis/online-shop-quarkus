@@ -1,7 +1,7 @@
 package com.online.model;
 
-import com.online.dto.DtoCreateCustomer;
-import com.online.dto.DtoUpdateCustomer;
+import com.online.dto.customer.DtoCreateCustomer;
+import com.online.dto.customer.DtoUpdateCustomer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

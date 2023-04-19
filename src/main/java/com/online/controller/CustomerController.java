@@ -1,8 +1,8 @@
 package com.online.controller;
 
-import com.online.dto.DtoCreateCustomer;
-import com.online.dto.DtoCustomerDetailed;
-import com.online.dto.DtoUpdateCustomer;
+import com.online.dto.customer.DtoCreateCustomer;
+import com.online.dto.customer.DtoCustomerDetailed;
+import com.online.dto.customer.DtoUpdateCustomer;
 import com.online.model.Customer;
 import com.online.service.CustomerService;
 
