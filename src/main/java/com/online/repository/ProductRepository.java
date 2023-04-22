@@ -29,10 +29,4 @@ public class ProductRepository implements PanacheRepository<Product> {
         return (Product) criteria.uniqueResult();
     }
 
-
-    public boolean quantityIsLower(OrderItem orderItem) {
-        Product product1 = findByName(orderItem.getName());
-        Product product = entityManager.find(Product.class, product1.getId());
-        return product.getQuantity() < orderItem.getQuantity();
-    }
 }

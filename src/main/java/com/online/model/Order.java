@@ -1,5 +1,6 @@
 package com.online.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.online.dto.order.DtoInsertOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@JsonIgnoreProperties("itemList")
 public class Order {
 
     @Id
@@ -21,6 +24,7 @@ public class Order {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "customers_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -31,9 +35,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Order(DtoInsertOrder dto, Customer customer) {
+    public Order(List<OrderItem> list, Customer customer) {
         this.customer = customer;
-        this.itemList = dto.itemList();
+        this.itemList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            itemList.add(list.get(i));
+            itemList.get(i).setOrder(this);
+        }
         this.status = Status.PENDING;
     }
 }
