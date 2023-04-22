@@ -49,11 +49,14 @@ public class OrderService {
     private List<OrderItem> conversorToOrderItem(DtoInsertOrder dto) {
         List<OrderItem> list = new ArrayList<>();
         for (int i = 0; i < dto.itemList().size(); i++) {
-            Product product = productRepository.findByName(dto.itemList().get(i).name());
-            if (product.getQuantity() < dto.itemList().get(i).quantity()) {
+            Optional<Product> product = Optional.ofNullable(productRepository.findByName(dto.itemList().get(i).name()));
+            if (product.isEmpty()) {
+             throw new ShopApiException("The product: " + dto.itemList().get(i).name() + ", doesn't exist.");
+            }
+            if (product.get().getQuantity() < dto.itemList().get(i).quantity()) {
                 throw new ShopApiException("Product: " + dto.itemList().get(i).name() + ", is out of stock!");
             }
-        list.add(new OrderItem(product.getName(), product.getPrice(), product.getQuantity()));
+        list.add(new OrderItem(product.get().getName(), product.get().getPrice(), product.get().getQuantity()));
         }
         return list;
     }
