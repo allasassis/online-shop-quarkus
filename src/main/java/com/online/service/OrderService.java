@@ -15,6 +15,7 @@ import com.online.repository.ProductRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,19 +44,28 @@ public class OrderService {
         return orderRepository.findByPaid(false).stream().map(DtoOrderList::new).toList();
     }
 
+    public DtoOrderDetailed findOrderById(Long id) {
+        Optional<Order> order = Optional.ofNullable(orderRepository.findById(id));
+        if(order.isEmpty()) {
+            throw new ShopApiException("There's no order with this ID! Try again.");
+        }
+        return new DtoOrderDetailed(order.get(), conversorToDto(order.get().getItemList()));
+    }
+
     public DtoOrderDetailed insertOrder(DtoInsertOrder dto) {
         Customer customer = verifier(dto);
         List<OrderItem> list = conversorToOrderItem(dto);
 
-        Order order = new Order(list, customer);
+        Order order = new Order(list, customer, calculateTotalPrice(list));
         orderRepository.persist(order);
+
         return new DtoOrderDetailed(order, dto.itemList());
     }
 
     public DtoOrderDetailed payOrder(Long id) {
         Optional<Order> order = Optional.ofNullable(orderRepository.findById(id));
         if (order.isEmpty()) {
-            throw new ShopApiException("This order has expired");
+            throw new ShopApiException("This order has expired!");
         }
         order.get().markAsPaid();
         orderRepository.persist(order.get());
@@ -82,17 +92,27 @@ public class OrderService {
             if (product.get().getQuantity() < dto.itemList().get(i).quantity()) {
                 throw new ShopApiException("Product: " + dto.itemList().get(i).name() + ", is out of stock!");
             }
-        list.add(new OrderItem(product.get().getName(), product.get().getPrice(), product.get().getQuantity()));
+        list.add(new OrderItem(product.get().getName(), product.get().getPrice(), dto.itemList().get(i).quantity()));
         }
         return list;
     }
 
-        private List<DtoOrderItem> conversorToDto(List<OrderItem> list) {
+    private List<DtoOrderItem> conversorToDto(List<OrderItem> list) {
         List<DtoOrderItem> list1 = new ArrayList<>();
 
         for (OrderItem orderItem: list) {
             list1.add(new DtoOrderItem(orderItem));
         }
         return list1;
+    }
+
+    private BigDecimal calculateTotalPrice(List<OrderItem> list) {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (int i = 0; i < list.size(); i++) {
+            BigDecimal price = BigDecimal.valueOf(list.get(i).getPrice());
+            BigDecimal quantity = BigDecimal.valueOf(list.get(i).getQuantity());
+            totalPrice = totalPrice.add(quantity.multiply(price));
+        }
+        return totalPrice;
     }
 }

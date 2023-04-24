@@ -33,6 +33,12 @@ public class OrderController {
         return orderService.findAllOrdersNotPaid();
     }
 
+    @GET
+    @Path("/{orderId}")
+    public DtoOrderDetailed findOrder(@PathParam("orderId") Long id) {
+        return orderService.findOrderById(id);
+    }
+
     @POST
     @Transactional
     public DtoOrderDetailed insertOrder(DtoInsertOrder dtoOrder) {
