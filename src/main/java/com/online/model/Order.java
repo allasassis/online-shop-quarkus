@@ -35,6 +35,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private Boolean paid;
+
     public Order(List<OrderItem> list, Customer customer) {
         this.customer = customer;
         this.itemList = new ArrayList<>();
@@ -43,5 +45,10 @@ public class Order {
             itemList.get(i).setOrder(this);
         }
         this.status = Status.PENDING;
+    }
+
+    public void markAsPaid() {
+        this.paid = true;
+        this.status = Status.PROCESSING;
     }
 }

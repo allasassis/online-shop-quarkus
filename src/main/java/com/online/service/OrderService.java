@@ -2,6 +2,8 @@ package com.online.service;
 
 import com.online.dto.order.DtoInsertOrder;
 import com.online.dto.order.DtoOrderDetailed;
+import com.online.dto.order.DtoOrderItem;
+import com.online.dto.order.DtoOrderList;
 import com.online.exception.ShopApiException;
 import com.online.model.Customer;
 import com.online.model.Order;
@@ -29,6 +31,18 @@ public class OrderService {
     @Inject
     ProductRepository productRepository;
 
+    public List<DtoOrderList> findAllOrders() {
+        return orderRepository.findAll().list().stream().map(DtoOrderList::new).toList();
+    }
+
+    public List<DtoOrderList> findAllOrdersPaid() {
+        return orderRepository.findByPaid(true).stream().map(DtoOrderList::new).toList();
+    }
+
+    public List<DtoOrderList> findAllOrdersNotPaid() {
+        return orderRepository.findByPaid(false).stream().map(DtoOrderList::new).toList();
+    }
+
     public DtoOrderDetailed insertOrder(DtoInsertOrder dto) {
         Customer customer = verifier(dto);
         List<OrderItem> list = conversorToOrderItem(dto);
@@ -36,6 +50,18 @@ public class OrderService {
         Order order = new Order(list, customer);
         orderRepository.persist(order);
         return new DtoOrderDetailed(order, dto.itemList());
+    }
+
+    public DtoOrderDetailed payOrder(Long id) {
+        Optional<Order> order = Optional.ofNullable(orderRepository.findById(id));
+        if (order.isEmpty()) {
+            throw new ShopApiException("This order has expired");
+        }
+        order.get().markAsPaid();
+        orderRepository.persist(order.get());
+
+        List<DtoOrderItem> dtoList = conversorToDto(order.get().getItemList());
+        return new DtoOrderDetailed(order.get(), dtoList);
     }
 
     private Customer verifier(DtoInsertOrder dto) {
@@ -59,5 +85,14 @@ public class OrderService {
         list.add(new OrderItem(product.get().getName(), product.get().getPrice(), product.get().getQuantity()));
         }
         return list;
+    }
+
+        private List<DtoOrderItem> conversorToDto(List<OrderItem> list) {
+        List<DtoOrderItem> list1 = new ArrayList<>();
+
+        for (OrderItem orderItem: list) {
+            list1.add(new DtoOrderItem(orderItem));
+        }
+        return list1;
     }
 }
