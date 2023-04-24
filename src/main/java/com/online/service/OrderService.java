@@ -86,13 +86,19 @@ public class OrderService {
         List<OrderItem> list = new ArrayList<>();
         for (int i = 0; i < dto.itemList().size(); i++) {
             Optional<Product> product = Optional.ofNullable(productRepository.findByName(dto.itemList().get(i).name()));
+
             if (product.isEmpty()) {
              throw new ShopApiException("The product: " + dto.itemList().get(i).name() + ", doesn't exist.");
             }
             if (product.get().getQuantity() < dto.itemList().get(i).quantity()) {
                 throw new ShopApiException("Product: " + dto.itemList().get(i).name() + ", is out of stock!");
             }
-        list.add(new OrderItem(product.get().getName(), product.get().getPrice(), dto.itemList().get(i).quantity()));
+            if (dto.itemList().get(i).quantity() <= 0) {
+                throw new ShopApiException("You have to select a quantity!");
+            }
+
+            product.get().updateQuantity(dto.itemList().get(i).quantity());
+            list.add(new OrderItem(product.get().getName(), product.get().getPrice(), dto.itemList().get(i).quantity()));
         }
         return list;
     }

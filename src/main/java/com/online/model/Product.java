@@ -55,4 +55,8 @@ public class Product {
             this.category = dto.category();
         }
     }
+
+    public void updateQuantity(Integer quantity) {
+        this.quantity -= quantity;
+    }
 }
