@@ -2,6 +2,7 @@ package com.online.controller;
 
 import com.online.dto.customer.DtoCreateCustomer;
 import com.online.dto.customer.DtoCustomerDetailed;
+import com.online.dto.customer.DtoCustomerList;
 import com.online.dto.customer.DtoUpdateCustomer;
 import com.online.model.Customer;
 import com.online.service.CustomerService;
@@ -18,7 +19,7 @@ public class CustomerController {
     CustomerService customerService;
 
     @GET
-    public List<Customer> listCustomer() {
+    public List<DtoCustomerList> listCustomer() {
         return customerService.listCustomers();
     }
 

@@ -11,6 +11,8 @@ import org.hibernate.criterion.Restrictions;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @ApplicationScoped
 public class ProductRepository implements PanacheRepository<Product> {
@@ -29,4 +31,10 @@ public class ProductRepository implements PanacheRepository<Product> {
         return (Product) criteria.uniqueResult();
     }
 
+    public List<Product> findAllByName(String name) {
+            TypedQuery<Product> query = getEntityManager().createQuery(
+                    "SELECT p FROM Product p WHERE p.name LIKE :name", Product.class);
+            query.setParameter("name", "%" + name + "%");
+            return query.getResultList();
+    }
 }

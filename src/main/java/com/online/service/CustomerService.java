@@ -2,6 +2,7 @@ package com.online.service;
 
 import com.online.dto.customer.DtoCreateCustomer;
 import com.online.dto.customer.DtoCustomerDetailed;
+import com.online.dto.customer.DtoCustomerList;
 import com.online.dto.customer.DtoUpdateCustomer;
 import com.online.exception.ShopApiException;
 import com.online.model.Customer;
@@ -18,8 +19,8 @@ public class CustomerService {
     @Inject
     CustomerRepository customerRepository;
 
-    public List<Customer> listCustomers() {
-        return customerRepository.findAll().list();
+    public List<DtoCustomerList> listCustomers() {
+        return customerRepository.findAll().stream().map(DtoCustomerList::new).toList();
     }
 
     public Customer createCustomer(DtoCreateCustomer dto) {

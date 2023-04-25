@@ -2,6 +2,7 @@ package com.online.service;
 
 import com.online.dto.product.DtoCreateProduct;
 import com.online.dto.product.DtoProductDetailed;
+import com.online.dto.product.DtoProductList;
 import com.online.dto.product.DtoUpdateProduct;
 import com.online.exception.ShopApiException;
 import com.online.model.Customer;
@@ -19,8 +20,12 @@ public class ProductService {
     @Inject
     ProductRepository productRepository;
 
-    public List<Product> listProducts() {
-        return productRepository.findAll().list();
+    public List<DtoProductList> listProducts() {
+        return productRepository.findAll().stream().map(DtoProductList::new).toList();
+    }
+
+    public List<DtoProductList> listProductsWithName(String name) {
+        return productRepository.findAllByName(name).stream().map(DtoProductList::new).toList();
     }
 
     public DtoProductDetailed insertProduct(DtoCreateProduct product) {
