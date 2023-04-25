@@ -42,7 +42,6 @@ public class ProductController {
         return productService.updateProduct(dto, productId);
     }
 
-
     @DELETE
     @Path("/{productId}")
     @Transactional

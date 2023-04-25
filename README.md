@@ -1,71 +1,107 @@
-# shop-api
+# API - Online Shop Quarkus
+### EN-US:
+An RESTful API made in Java with Quarkus for an Online Shop. 
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This is an API made in Java for an online shop: customers, products and orders. <br>
+All functions use DTO on data input and output.
+<br><br>
+This API uses MySQL as its database.
+## API Functions:
+### Customers:
+- List customers - `/customer`
+- Register customer - `/customer`
+- Update customer - `/customer/{id}`
+- Delete customer - `/customer/{id}`
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+### Products:
+- List products - `/product`
+- Insert product - `/product`
+- Search for all products that contains the name you want (search field) - `/product/{name}`
+- Update product - `/product/{id}`
+- Delete product - `/product/{id}`
 
-## Running the application in dev mode
+### Orders:
 
-You can run your application in dev mode that enables live coding using:
+- List all orders - `/order`
+- List paid orders - `/order/paid`
+- List not paid orders - `/order/notpaid`
+- Get order by id - `/order/{id}`
+- Insert order - `/order`
+- Pay order - `/order/payment/{id}`
 
-```shell script
-./mvnw compile quarkus:dev
-```
+## Technologies used:
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+- Java
+- Quarkus
+- Flyway
+- MySQL
+- Lombok
+- Hibernate
+- Maven
+- Insomnia
 
-## Packaging and running the application
+## Documentation
+Clone or download the application, upgrade the application.properties with your database link (it must be
+a MongoDB database) then
+run it, after that consult the documentation with all the methods in the link bellow:
+<br>http://localhost:8080/swagger-ui.html
 
-The application can be packaged using:
+## Author
 
-```shell script
-./mvnw package
-```
+#### Allas Assis de Oliveira
+https://www.linkedin.com/in/allasassis
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+--------------------------------------------------------
+# API - Loja Online Quarkus
+### PT-BR:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Uma API RESTful feita em Java com Quarkus para uma loja online.
 
-If you want to build an _über-jar_, execute the following command:
+Essa é uma API feita em Java para uma loja online: clientes, produtos e pedidos.
+Todas as funções usam DTO na entrada e saída de dados.
+<br><br>
+Essa API utiliza o MySQL como seu banco de dados.
+## Funções da API:
+### Clientes:
+- Listar clientes - `/customer`
+- Registrar cliente - `/customer`
+- Atualizar cliente - `/customer/{id}`
+- Deletar cliente - `/customer/{id}`
 
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+### Produtos:
+- Listar produtos - `/product`
+- Inserir produto - `/product`
+- Buscar todos os produtos que tenham o nome que você quiser (campo de busca) - `/product/{name}`
+- Atualizar produto - `/product/{id}`
+- Deletar produto - `/product/{id}`
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### Pedidos:
 
-## Creating a native executable
+- Listar todos os pedidos - `/order`
+- Listar os pedidos pagos - `/order/paid`
+- List os pedidos NÃO pagos - `/order/notpaid`
+- Obter pedido pelo id - `/order/{id}`
+- Inserir pedido - `/order`
+- Pagar pedido - `/order/payment/{id}`
 
-You can create a native executable using:
+## Tecnologias usadas:
 
-```shell script
-./mvnw package -Pnative
-```
+- Java
+- Quarkus
+- Flyway
+- MySQL
+- Lombok
+- Hibernate
+- Maven
+- Insomnia
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## Documentação
+Clone ou baixe a aplicação, atualize o application.properties com o link do seu banco de dados (tem que ser
+um banco de dados MongoDB), após
+isso execute o programa e consulte a documentação com todos os métodos no link abaixo:
+<br>http://localhost:8080/swagger-ui.html
 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+## Autor
 
-You can then execute your native executable with: `./target/shop-api-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- REST resources for Hibernate ORM with Panache ([guide](https://quarkus.io/guides/rest-data-panache)): Generate JAX-RS
-  resources for your Hibernate Panache entities and repositories
-- Flyway ([guide](https://quarkus.io/guides/flyway)): Handle your database schema migrations
-- Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and
-  method parameters for your beans (REST, CDI, JPA)
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+#### Allas Assis de Oliveira
+https://www.linkedin.com/in/allasassis
